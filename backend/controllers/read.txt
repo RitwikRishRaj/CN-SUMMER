@@ -1,0 +1,6 @@
+contains pages like githubController.js 
+                    userController.js
+its connected with the routes folder
+Routes → define the API endpoints (URLs)
+Controllers → define what happens when someone hits those endpoints
+

@@ -1,0 +1,16 @@
+{
+  "name": "cn-summer-backend",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.5.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
