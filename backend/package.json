@@ -2,6 +2,8 @@
   "name": "cn-summer-backend",
   "private": true,
   "version": "0.1.0",
+  "uuid": "^9.0.0",
+
   "scripts": {
     "dev": "nodemon index.js"
   },

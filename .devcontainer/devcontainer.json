@@ -4,6 +4,8 @@
   "service": "frontend",
   "workspaceFolder": "/app",
   "forwardPorts": [5173, 5000],
+  "postCreateCommand": "npm install --prefix frontend && npm install --prefix backend",
+
   "customizations": {
     "vscode": {
       "extensions": [
