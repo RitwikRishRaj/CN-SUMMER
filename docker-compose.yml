@@ -5,7 +5,7 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./frontend:/app
+      - ./frontend
     command: npm run dev
     depends_on:
       - backend
@@ -15,5 +15,5 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./backend:/app
+      - ./backend
     command: npm run dev
