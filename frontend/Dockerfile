@@ -3,26 +3,20 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Install npm globally first
-RUN npm install -g npm@latest
-
-# Install shadcn-ui globally
-RUN npm install -g shadcn-ui
-
-# Copy package files
+# Copy package files first
 COPY package*.json ./
 
-# Initialize shadcn-ui
-RUN shadcn-ui@latest init
-
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
-# Copy the rest of the app
+# Copy the rest of the application code
 COPY . .
 
-# Expose the Vite dev server port
-EXPOSE 5173
+# Install build tools
+RUN npm install --save-dev @vitejs/plugin-react terser
 
-# Start Vite dev server
-CMD ["npm", "run", "dev"]
+# Build the application
+RUN npm run build
+
+# Start the application
+CMD ["npx", "vite", "preview", "--port", "5173", "--host"]
