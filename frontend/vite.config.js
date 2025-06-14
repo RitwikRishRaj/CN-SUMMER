@@ -1,22 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': '/src'
-    }
-  },
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-    sourcemap: true,
-    target: 'esnext'
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   server: {
-    port: 5173,
-    host: true,
-    strictPort: true
+    port: 5173,  // Vite's default port
+    open: true,  // Automatically open the app in browser
+    host: true   // Allow connections from local network
   }
 });

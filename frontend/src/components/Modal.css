@@ -1,0 +1,126 @@
+/* Modal Container */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #111827; /* bg-gray-900 */
+  border: 1px solid #1f2937; /* border-gray-800 */
+  border-radius: 0.5rem; /* rounded-lg */
+  width: 100%;
+  max-width: 28rem; /* max-w-md */
+  padding: 1.5rem; /* p-6 */
+}
+
+/* Input Fields */
+.modal-input {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 1rem; /* py-2.5 px-4 */
+  background-color: #1f2937; /* bg-gray-800 */
+  border: 1px solid #374151; /* border-gray-700 */
+  border-radius: 9999px; /* rounded-full */
+  color: white;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem; /* leading-5 */
+  transition: all 0.2s ease;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #3b82f6; /* border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* ring-2 ring-blue-500 */
+}
+
+.modal-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.modal-input.border-red-500 {
+  border-color: #ef4444;
+}
+
+.modal-input.border-red-500:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+  border-color: #ef4444;
+}
+
+/* Labels */
+.modal-label {
+  display: block;
+  margin-bottom: 0.5rem; /* mb-2 */
+  color: #d1d5db; /* text-gray-300 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+}
+
+/* Button */
+.modal-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 9999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 120px;
+  height: 40px;
+}
+
+.modal-button:not(:disabled):hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+}
+
+.modal-button:not(:disabled):active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.2);
+}
+
+.modal-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #3b82f6;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Form container */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Form content wrapper */
+.form-content {
+  flex: 1;
+}

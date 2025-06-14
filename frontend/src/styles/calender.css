@@ -1,0 +1,236 @@
+/* Custom styles for react-big-calendar */
+.rbc-calendar {
+  @apply bg-black text-calendar-text-primary rounded-lg overflow-hidden h-full;
+}
+
+/* Toolbar */
+.rbc-toolbar {
+  @apply flex flex-col md:flex-row items-center justify-between p-4 bg-black border-b border-calendar-border;
+}
+
+.rbc-toolbar-label {
+  @apply text-xl font-bold my-2 md:my-0 text-calendar-text-primary;
+}
+
+.rbc-btn-group {
+  @apply flex items-center space-x-2;
+}
+
+.rbc-btn {
+  @apply px-4 py-2 text-sm font-medium rounded-lg bg-calendar-bgSecondary/80 text-calendar-text-secondary hover:bg-calendar-accent/80 hover:text-white transition-colors flex items-center border border-calendar-border;
+}
+
+.rbc-btn:active, .rbc-active {
+  @apply bg-calendar-accent text-white border-calendar-accent shadow-lg shadow-calendar-accent/20;
+}
+
+.rbc-today {
+  @apply bg-calendar-bgSecondary/20;
+}
+
+.rbc-now > a {
+  @apply text-calendar-accent font-bold;
+}
+
+.rbc-date-cell > a {
+  @apply text-calendar-text-secondary hover:text-white transition-colors;
+}
+
+/* Month view */
+.rbc-month-view {
+  @apply border-0 bg-black;
+}
+
+.rbc-month-row {
+  @apply bg-black;
+}
+
+.rbc-day-bg {
+  @apply bg-black;
+}
+
+.rbc-off-range-bg {
+  @apply bg-black;
+}
+
+.rbc-today {
+  @apply bg-calendar-bgSecondary/30;
+}
+
+.rbc-current {
+  @apply bg-calendar-bgSecondary/50;
+}
+
+.rbc-header {
+  @apply bg-black text-calendar-text-secondary border-b border-calendar-border;
+}
+
+.rbc-date-cell {
+  @apply text-calendar-text-secondary;
+}
+
+.rbc-off-range .rbc-day-bg {
+  @apply bg-black text-calendar-text-muted/50;
+}
+
+.rbc-month-header {
+  @apply bg-calendar-header;
+}
+
+.rbc-header {
+  @apply py-4 text-sm font-medium text-calendar-text-muted border-b border-calendar-border;
+}
+
+.rbc-header + .rbc-header {
+  @apply border-l border-calendar-border;
+}
+
+.rbc-month-row {
+  @apply border-b border-calendar-border min-h-[120px];
+}
+
+.rbc-month-row + .rbc-month-row {
+  @apply border-t-0;
+}
+
+.rbc-date-cell {
+  @apply p-2 text-right text-sm text-calendar-text-secondary;
+}
+
+.rbc-off-range-bg {
+  @apply bg-calendar-bgSecondary/30;
+}
+
+.rbc-off-range .rbc-day-bg + .rbc-day-bg {
+  @apply border-l border-calendar-border;
+}
+
+/* Events */
+.rbc-event {
+  @apply bg-calendar-bgSecondary/60 border-l-4 border-calendar-accent rounded-r text-white text-xs p-1.5 m-0.5 overflow-hidden cursor-pointer transition-all duration-200 hover:bg-calendar-bgSecondary/80 hover:shadow-md hover:shadow-calendar-accent/20;
+  backdrop-filter: blur(4px);
+}
+
+.rbc-event-content {
+  @apply flex items-center w-full h-full px-1 overflow-hidden;
+}
+
+.rbc-event-title {
+  @apply text-white text-xs font-medium truncate leading-tight;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rbc-event-platform-logo {
+  @apply w-3.5 h-3.5 mr-1.5 flex-shrink-0 object-contain rounded-sm shadow-sm bg-white/10 p-0.5;
+}
+
+.rbc-event.rbc-selected {
+  @apply ring-2 ring-calendar-accent/50 ring-offset-1 ring-offset-black;
+}
+
+.rbc-event:hover {
+  @apply transform -translate-y-0.5 shadow-lg shadow-calendar-accent/10;
+  z-index: 5;
+}
+
+/* Show more link */
+.rbc-show-more {
+  @apply bg-calendar-bgSecondary/50 text-calendar-accent text-xs p-1 mt-1 rounded text-center hover:underline cursor-pointer hover:bg-calendar-bgSecondary/70 transition-colors;
+}
+
+/* Day/Week view */
+.rbc-time-view {
+  @apply border-t-0 bg-calendar-bg;
+}
+
+.rbc-time-header {
+  @apply bg-calendar-header;
+}
+
+.rbc-time-gutter {
+  @apply bg-calendar-bgSecondary/30 text-calendar-text-muted text-xs;
+}
+
+.rbc-time-content {
+  @apply border-t-0 bg-calendar-bg;
+}
+
+.rbc-time-slot {
+  @apply text-xs text-calendar-text-muted border-b border-calendar-border;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+  @apply border-b-0;
+}
+
+/* Agenda view */
+.rbc-agenda-view {
+  @apply bg-calendar-bgSecondary/30;
+}
+
+.rbc-agenda-date-cell {
+  @apply text-calendar-accent;
+}
+
+.rbc-agenda-time-cell {
+  @apply text-calendar-text-muted;
+}
+
+/* Today's date */
+.rbc-today {
+  @apply bg-calendar-today;
+}
+
+/* Current time indicator */
+.rbc-current-time-indicator {
+  @apply bg-calendar-timeIndicator h-0.5;
+}
+
+/* Event tooltip */
+.rbc-overlay {
+  @apply bg-calendar-bgSecondary border border-calendar-border rounded-lg shadow-2xl z-50 p-4 max-w-xs backdrop-blur-sm;
+  backdrop-filter: blur(8px);
+}
+
+/* Selected event */
+.rbc-selected {
+  @apply ring-2 ring-calendar-accent ring-opacity-50;
+}
+
+/* Time slots in day/week view */
+.rbc-time-slot.rbc-now {
+  @apply font-semibold text-calendar-accent;
+}
+
+/* Time gutter in day/week view */
+.rbc-time-gutter .rbc-timeslot-group {
+  @apply border-r border-calendar-border;
+}
+
+/* Event hover state */
+.rbc-event:hover {
+  @apply shadow-md transform -translate-y-0.5 shadow-calendar-accent/20;
+  z-index: 5;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 #1F2937;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-1.5 h-1.5;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-800/30 rounded-full m-1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-600/80 rounded-full hover:bg-gray-500 transition-colors;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
