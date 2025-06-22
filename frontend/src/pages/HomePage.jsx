@@ -6,10 +6,10 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <Aurora 
-        colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+        colorStops={["#150050", "#3F0071", "#690091"]}
         blend={0.5}
         amplitude={0.5}
-        speed={0.5}
+        speed={0.75}
         className="absolute inset-0 z-0"
       />
       <div className="relative z-10">
