@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import CustomHeatmap from "../components/CustomHeatmap";
 import CountUp from "../components/ui/CountUp";
 import NavBar from "../components/NavBar";
@@ -13,6 +13,51 @@ const ProfileTracker = () => {
   // State for time period toggle
   const [timePeriod, setTimePeriod] = useState('month'); // 'week' or 'month'
   
+  // State for contest tracking
+  const [selectedPlatform, setSelectedPlatform] = useState('LeetCode');
+
+  // Mock contest data for each platform
+  const platformData = useMemo(() => ({
+    'LeetCode': {
+      count: 141,
+      rating: 2100,
+      change: '+25',
+      icon: 'https://leetcode.com/favicon.ico'
+    },
+    'CodeChef': {
+      count: 49,
+      rating: 1850,
+      change: '+30',
+      icon: 'https://img.icons8.com/fluent/512/codechef.png'
+    },
+    'CodeForces': {
+      count: 240,
+      rating: 1950,
+      change: '+50',
+      icon: 'https://codeforces.org/s/0/favicon-32x32.png'
+    },
+    'GeeksForGeeks': {
+      count: 1,
+      rating: 1500,
+      change: '0',
+      icon: 'https://media.geeksforgeeks.org/gfg-gg-logo.svg'
+    }
+  }), []);
+
+  // Generate rating data based on selected platform
+  const contestRatingData = useMemo(() => {
+    const platform = platformData[selectedPlatform];
+    if (!platform) return [];
+    
+    return [
+      { month: 'Jan', rating: platform.rating - 300 },
+      { month: 'Feb', rating: platform.rating - 200 },
+      { month: 'Mar', rating: platform.rating - 100 },
+      { month: 'Apr', rating: platform.rating - 50 },
+      { month: 'May', rating: platform.rating },
+    ];
+  }, [selectedPlatform, platformData]);
+
   // Total stats (all-time)
   const totalStats = {
     totalQuestions: 7250,
@@ -251,12 +296,12 @@ const ProfileTracker = () => {
               </div>
             </div>
 
-            {/* Middle Column - Contest Tracker - 5 columns */}
+            {/* Middle Column - Contest Tracker */}
             <div className="lg:col-span-4 space-y-4">
               <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-2xl p-4 shadow-2xl">
                 <div className="flex flex-col sm:flex-row">
                   {/* Total Contests */}
-                  <div className="w-1/3 flex flex-col items-center justify-center py-6 sm:py-8 sm:border-r border-b sm:border-b-0 border-[#610094]/30">
+                  <div className="w-full sm:w-1/3 flex flex-col items-center justify-center py-6 sm:py-8 sm:border-r border-b sm:border-b-0 border-[#610094]/30">
                     <h3 className="text-[#610094] text-sm sm:text-base font-semibold mb-2 text-center">Total Contests</h3>
                     <div className="text-4xl sm:text-5xl font-bold text-white">
                       <CountUp to={431} duration={2.5} separator="," />
@@ -264,19 +309,22 @@ const ProfileTracker = () => {
                   </div>
 
                   {/* Contest Platforms */}
-                  <div className="w-2/3 p-3">
-                    <h4 className="text-xs text-gray-400 mb-2 uppercase tracking-wider">Platforms</h4>
+                  <div className="w-full sm:w-2/3 p-3">
+                    <h4 className="text-xs text-gray-400 mb-2 uppercase tracking-wider sm:text-left text-center">Platforms</h4>
                     <div className="space-y-2">
-                      {[
-                        { name: 'LeetCode', count: 141, icon: 'https://leetcode.com/favicon.ico' },
-                        { name: 'CodeChef', count: 49, icon: 'https://img.icons8.com/fluent/512/codechef.png' },
-                        { name: 'CodeForces', count: 240, icon: 'https://codeforces.org/s/0/favicon-32x32.png' },
-                        { name: 'GeeksForGeeks', count: 1, icon: 'https://media.geeksforgeeks.org/gfg-gg-logo.svg' }
-                      ].map((platform, index) => (
-                        <div key={index} className="flex items-center gap-3 p-2 bg-[#3F0071]/20 rounded-lg hover:bg-[#3F0071]/30 transition-colors">
-                          <img src={platform.icon} alt={platform.name} className="w-5 h-5 rounded-sm flex-shrink-0" />
-                          <span className="text-sm text-gray-300">{platform.name}</span>
-                          <span className="ml-auto text-sm font-bold text-white">{platform.count}</span>
+                      {Object.entries(platformData).map(([name, data]) => (
+                        <div 
+                          key={name}
+                          onClick={() => setSelectedPlatform(name)}
+                          className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                            selectedPlatform === name 
+                              ? 'bg-[#610094]/50' 
+                              : 'bg-[#3F0071]/20 hover:bg-[#3F0071]/30'
+                          }`}
+                        >
+                          <img src={data.icon} alt={name} className="w-5 h-5 rounded-sm flex-shrink-0" />
+                          <span className="text-sm text-gray-300">{name}</span>
+                          <span className="ml-auto text-sm font-bold text-white">{data.count}</span>
                         </div>
                       ))}
                     </div>
@@ -285,80 +333,21 @@ const ProfileTracker = () => {
               </div>
 
               {/* Rating Graph */}
-              <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-2xl p-4 shadow-2xl">
-                <h3 className="text-[#610094] text-sm sm:text-base font-semibold mb-4">Rating Progress</h3>
-                <div className="h-48">
-                  <RatingGraph data={ratingData} platform="CodeForces" />
+              <div className="lg:col-span-4 space-y-4">
+                <div className="h-full">
+                  <RatingGraph 
+                    data={contestRatingData}
+                    platform={selectedPlatform}
+                    currentRating={platformData[selectedPlatform]?.rating}
+                    ratingChange={platformData[selectedPlatform]?.change}
+                  />
                 </div>
               </div>
+            </div>
 
-              {/* Problems Solved */}
-              <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-2xl p-4 shadow-2xl">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[#610094] text-base font-semibold">Problems Solved</h3>
-                  <div className="text-xs text-gray-400">Total: <span className="font-bold text-white">2,504</span></div>
-                </div>
-                <div className="space-y-4">
-                  <div className="bg-[#3F0071]/20 rounded-xl p-4 border border-[#610094]/30">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-sm font-medium text-gray-300">Fundamentals</h4>
-                      <span className="text-[#610094] text-sm">ℹ️</span>
-                    </div>
-                    <div className="flex items-center justify-center mb-4">
-                      <div className="relative w-32 h-32">
-                        <svg className="w-full h-full transform -rotate-90">
-                          <circle
-                            cx="64"
-                            cy="64"
-                            r="60"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                            fill="none"
-                            className="text-[#3F0071]/40"
-                          />
-                          <circle
-                            cx="64"
-                            cy="64"
-                            r="60"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                            fill="none"
-                            className="text-[#00ff88]"
-                            strokeDasharray="377"
-                            strokeDashoffset="113.1"
-                            strokeLinecap="round"
-                            style={{
-                              transition: 'stroke-dashoffset 1s ease-in-out',
-                            }}
-                          />
-                        </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-3xl font-bold text-white">2,504</span>
-                          <span className="text-xs text-gray-400">problems solved</span>
-                          <span className="text-green-400 text-sm font-medium mt-1">70% complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      {[
-                        { label: 'Easy', count: 817, color: 'text-green-400', width: 'w-3/4' },
-                        { label: 'Medium', count: 1348, color: 'text-yellow-400', width: 'w-5/6' },
-                        { label: 'Hard', count: 339, color: 'text-red-400', width: 'w-1/3' }
-                      ].map((item, index) => (
-                        <div key={index} className="space-y-1">
-                          <div className="flex justify-between text-xs">
-                            <span className={`${item.color} font-medium`}>{item.label}</span>
-                            <span className="text-gray-300">{item.count}</span>
-                          </div>
-                          <div className="h-1.5 bg-[#3F0071]/40 rounded-full overflow-hidden">
-                            <div className={`h-full ${item.color.replace('text-', 'bg-')} rounded-full ${item.width}`}></div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {/* Right Column - Additional Content */}
+            <div className="lg:col-span-5 space-y-4">
+              {/* ... existing right column content ... */}
             </div>
           </div>
         </div>

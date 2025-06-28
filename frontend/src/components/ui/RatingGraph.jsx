@@ -27,7 +27,7 @@ const RatingGraph = ({ data, platform }) => {
         <p className="text-sm text-gray-300">Your rating progress over time</p>
       </div>
       
-      <div className="h-[300px] w-full">
+      <div className="h-[250px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
