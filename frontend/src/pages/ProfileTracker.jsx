@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import CustomHeatmap from "../components/CustomHeatmap";
 import CountUp from "../components/ui/CountUp";
 import NavBar from "../components/NavBar";
@@ -234,7 +235,7 @@ const ProfileTracker = () => {
                 </div>
               </div>
               
-              {/* Contest Tracker - Moved below stats */}
+              {/* Contest Tracker */}
               <div className="mt-4">
                 <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-2xl p-5 shadow-2xl">
                   <div className="flex flex-col md:flex-row">
@@ -270,6 +271,16 @@ const ProfileTracker = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Rating Graph */}
+              <div className="mt-4">
+                <RatingGraph 
+                  data={contestRatingData}
+                  platform={selectedPlatform}
+                  currentRating={platformData[selectedPlatform]?.rating}
+                  ratingChange={platformData[selectedPlatform]?.change}
+                />
+              </div>
             </div>
 
             {/* Heatmap - 5 columns on lg+ */}
@@ -278,48 +289,331 @@ const ProfileTracker = () => {
                 <CustomHeatmap />
               </div>
               
-              {/* Activity Summary - Moved below heatmap */}
-              <div className="mt-4">
-                <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-2xl p-4 shadow-2xl">
-                  <h3 className="text-white text-sm font-semibold mb-3 flex items-center gap-2">
-                    <span className="text-[#610094]">📊</span> Activity Summary
+              {/* Problems Solved - Moved below heatmap */}
+              <div className="mt-2">
+                <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-xl p-2 shadow-2xl">
+                  <h3 className="text-white text-xs font-semibold mb-2 flex items-center gap-1">
+                    <span className="text-[#9F7AEA] text-sm">📊</span> Problems Solved
                   </h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-[#3F0071]/20 p-2 rounded-lg">
-                      <div className="text-xs text-gray-300 mb-1">Today's Progress</div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">12/20</span>
-                        <span className="text-xs px-1.5 py-0.5 bg-green-900/30 text-green-400 rounded-full">+2 from yesterday</span>
+                  
+                  {/* Pie Charts Grid */}
+                  <div className="flex flex-col gap-2 w-full">
+                    {/* Fundamentals */}
+                    <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-lg p-2 w-full shadow-2xl">
+                      <div className="mb-3 text-center">
+                        <h3 className="text-sm font-bold text-white mb-0.5">Fundamentals</h3>
+                        <div className="h-0.5 w-12 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto rounded-full"></div>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-1.5 mt-1.5">
-                        <div className="bg-[#610094] h-1.5 rounded-full" style={{ width: '60%' }}></div>
+                      
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+                        {/* Left Side - Pie Chart */}
+                        <div className="w-full md:w-2/5 max-w-[180px]">
+                          <div className="w-full h-40 relative">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-white">2,450</div>
+                                <div className="text-[9px] text-gray-400">Total</div>
+                              </div>
+                            </div>
+                            
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <defs>
+                                  <linearGradient id="gfgGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#10B981" />
+                                    <stop offset="100%" stopColor="#059669" />
+                                  </linearGradient>
+                                  <linearGradient id="cnGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#F59E0B" />
+                                    <stop offset="100%" stopColor="#D97706" />
+                                  </linearGradient>
+                                </defs>
+                                
+                                <Pie
+                                  data={[
+                                    { name: 'GFG', value: 1500, color: '#10B981' },
+                                    { name: 'Coding Ninjas', value: 950, color: '#F59E0B' },
+                                  ]}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={40}
+                                  outerRadius={55}
+                                  paddingAngle={2}
+                                  cornerRadius={4}
+                                  dataKey="value"
+                                  animationBegin={0}
+                                  animationDuration={800}
+                                  animationEasing="ease-out"
+                                >
+                                  <Cell fill="url(#gfgGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                  <Cell fill="url(#cnGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                </Pie>
+                                
+                                <Tooltip 
+                                  content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                      return (
+                                        <div className="bg-gray-800 p-1.5 rounded border border-gray-700 text-xs">
+                                          <p className="font-medium text-white">{payload[0].name}</p>
+                                          <p className="text-gray-300">{payload[0].value} problems</p>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  }}
+                                />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        
+                        {/* Right Side - Stats Cards */}
+                        <div className="w-full md:w-1/2 flex flex-col gap-1.5">
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-green-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-green-400 to-green-600"></div>
+                                <h5 className="text-[11px] font-medium text-green-300">GeeksforGeeks</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">1.5K</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-orange-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-orange-400 to-orange-600"></div>
+                                <h5 className="text-[11px] font-medium text-orange-300">Coding Ninjas</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">950</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="bg-[#3F0071]/20 p-2 rounded-lg">
-                      <div className="text-xs text-gray-300 mb-1">Current Streak</div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">7 days</span>
-                        <span className="text-xs px-1.5 py-0.5 bg-blue-900/30 text-blue-400 rounded-full">🔥 3 more</span>
+
+                    {/* Data Structures */}
+                    <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-lg p-2 w-full shadow-2xl">
+                      <div className="mb-3 text-center">
+                        <h3 className="text-sm font-bold text-white mb-0.5">Data Structures</h3>
+                        <div className="h-0.5 w-12 bg-gradient-to-r from-green-400 to-teal-400 mx-auto rounded-full"></div>
+                      </div>
+                      
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+                        {/* Left Side - Pie Chart */}
+                        <div className="w-full md:w-2/5 max-w-[180px]">
+                          <div className="w-full h-40 relative">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-white">1.85K</div>
+                                <div className="text-[9px] text-gray-400">Total</div>
+                              </div>
+                            </div>
+                            
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <defs>
+                                  <linearGradient id="easyGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#10B981" />
+                                    <stop offset="100%" stopColor="#059669" />
+                                  </linearGradient>
+                                  <linearGradient id="mediumGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#F59E0B" />
+                                    <stop offset="100%" stopColor="#D97706" />
+                                  </linearGradient>
+                                  <linearGradient id="hardGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#EF4444" />
+                                    <stop offset="100%" stopColor="#DC2626" />
+                                  </linearGradient>
+                                </defs>
+                                
+                                <Pie
+                                  data={[
+                                    { name: 'Easy', value: 1000, color: '#10B981' },
+                                    { name: 'Medium', value: 700, color: '#F59E0B' },
+                                    { name: 'Hard', value: 150, color: '#EF4444' },
+                                  ]}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={40}
+                                  outerRadius={55}
+                                  paddingAngle={2}
+                                  cornerRadius={4}
+                                  dataKey="value"
+                                  animationBegin={0}
+                                  animationDuration={800}
+                                  animationEasing="ease-out"
+                                >
+                                  <Cell fill="url(#easyGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                  <Cell fill="url(#mediumGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                  <Cell fill="url(#hardGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                </Pie>
+                                
+                                <Tooltip 
+                                  content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                      return (
+                                        <div className="bg-gray-800 p-1.5 rounded border border-gray-700 text-xs">
+                                          <p className="font-medium text-white">{payload[0].name}</p>
+                                          <p className="text-gray-300">{payload[0].value} problems</p>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  }}
+                                />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        
+                        {/* Right Side - Stats Cards */}
+                        <div className="w-full md:w-1/2 flex flex-col gap-1.5">
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-green-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-green-400 to-green-600"></div>
+                                <h5 className="text-[11px] font-medium text-green-300">Easy</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">1K</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-yellow-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600"></div>
+                                <h5 className="text-[11px] font-medium text-yellow-300">Medium</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">700</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-red-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-red-400 to-red-600"></div>
+                                <h5 className="text-[11px] font-medium text-red-300">Hard</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">150</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="bg-[#3F0071]/20 p-2 rounded-lg">
-                      <div className="text-xs text-gray-300 mb-1">Weekly Goal</div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">85%</span>
-                        <span className="text-xs px-1.5 py-0.5 bg-yellow-900/30 text-yellow-400 rounded-full">3 days left</span>
+
+                    {/* Competitive Programming */}
+                    <div className="bg-gradient-to-br from-[#150050]/80 to-[#3F0071]/60 backdrop-blur-sm border border-[#610094]/30 rounded-lg p-2 w-full shadow-2xl">
+                      <div className="mb-3 text-center">
+                        <h3 className="text-sm font-bold text-white mb-0.5">Competitive Programming</h3>
+                        <div className="h-0.5 w-12 bg-gradient-to-r from-pink-400 to-rose-500 mx-auto rounded-full"></div>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-1.5 mt-1.5">
-                        <div className="bg-yellow-500 h-1.5 rounded-full" style={{ width: '85%' }}></div>
-                      </div>
-                    </div>
-                    <div className="bg-[#3F0071]/20 p-2 rounded-lg">
-                      <div className="text-xs text-gray-300 mb-1">Monthly Target</div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">42/100</span>
-                        <span className="text-xs px-1.5 py-0.5 bg-purple-900/30 text-purple-400 rounded-full">On track</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-1.5 mt-1.5">
-                        <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: '42%' }}></div>
+                      
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+                        {/* Left Side - Pie Chart */}
+                        <div className="w-full md:w-2/5 max-w-[180px]">
+                          <div className="w-full h-40 relative">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-white">1.2K</div>
+                                <div className="text-[9px] text-gray-400">Total</div>
+                              </div>
+                            </div>
+                            
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <defs>
+                                  <linearGradient id="codechefGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#F472B6" />
+                                    <stop offset="100%" stopColor="#DB2777" />
+                                  </linearGradient>
+                                  <linearGradient id="codeforcesGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#F97316" />
+                                    <stop offset="100%" stopColor="#EA580C" />
+                                  </linearGradient>
+                                </defs>
+                                
+                                <Pie
+                                  data={[
+                                    { name: 'CodeChef', value: 700, color: '#DB2777' },
+                                    { name: 'CodeForces', value: 500, color: '#F97316' },
+                                  ]}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={40}
+                                  outerRadius={55}
+                                  paddingAngle={2}
+                                  cornerRadius={4}
+                                  dataKey="value"
+                                  animationBegin={0}
+                                  animationDuration={800}
+                                  animationEasing="ease-out"
+                                >
+                                  <Cell fill="url(#codechefGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                  <Cell fill="url(#codeforcesGradient)" stroke="#1F1A30" strokeWidth={1} />
+                                </Pie>
+                                
+                                <Tooltip 
+                                  content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                      return (
+                                        <div className="bg-gray-800 p-1.5 rounded border border-gray-700 text-xs">
+                                          <p className="font-medium text-white">{payload[0].name}</p>
+                                          <p className="text-gray-300">{payload[0].value} problems</p>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  }}
+                                />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        
+                        {/* Right Side - Stats Cards */}
+                        <div className="w-full md:w-1/2 flex flex-col gap-1.5">
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-pink-500/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-pink-400 to-rose-500"></div>
+                                <h5 className="text-[11px] font-medium text-pink-300">CodeChef</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">700</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-gray-800/50 backdrop-blur-sm p-2 rounded-lg border border-gray-700/50 hover:border-orange-400/30 transition-all duration-200">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-orange-400 to-orange-600"></div>
+                                <h5 className="text-[11px] font-medium text-orange-300">CodeForces</h5>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-base font-bold text-white">500</div>
+                                <div className="text-[9px] text-gray-400">Solved</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -379,16 +673,6 @@ const ProfileTracker = () => {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Middle Column - Rating Graph */}
-            <div className="lg:col-span-4">
-              <RatingGraph 
-                data={contestRatingData}
-                platform={selectedPlatform}
-                currentRating={platformData[selectedPlatform]?.rating}
-                ratingChange={platformData[selectedPlatform]?.change}
-              />
             </div>
 
             {/* Right Column - Additional Content */}
