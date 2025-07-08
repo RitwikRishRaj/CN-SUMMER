@@ -158,11 +158,11 @@ const ProfileTracker = () => {
                     href="https://twitter.com/rajatjoshi" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="group relative w-8 h-8 bg-[#3F0071]/40 hover:bg-[#1DA1F2] rounded flex items-center justify-center border border-[#610094]/30 transition-all duration-200"
-                    title="Twitter"
+                    className="group relative w-8 h-8 bg-[#3F0071]/40 hover:bg-[#000000] rounded flex items-center justify-center border border-[#610094]/30 transition-all duration-200"
+                    title="X (Twitter)"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 5.523-4.477 10-10 10z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
                     </svg>
                     <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs py-1 px-2 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">@rajatjoshi</span>
                   </a>
@@ -175,8 +175,10 @@ const ProfileTracker = () => {
                     className="group relative w-8 h-8 bg-[#3F0071]/40 hover:bg-[#6e40c9] rounded flex items-center justify-center border border-[#610094]/30 transition-all duration-200"
                     title="Portfolio"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                     </svg>
                     <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs py-1 px-2 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">rajatjoshi.dev</span>
                   </a>
@@ -224,146 +226,139 @@ const ProfileTracker = () => {
                 </div>
 
                 {/* Coding Profiles Section */}
-                <div className="border-t border-[#2a2a42]/40 pt-3 mt-3">
-                  <h4 className="text-xs font-semibold text-gray-400 mb-3 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1.5 text-[#9F7AEA]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c.52-.52.52-1.365-.001-1.885-.52-.52-1.366-.52-1.887 0z"/>
-                      <path d="M20.811 13.01H10.666c-.702 0-1.27.604-1.27 1.346s.568 1.346 1.27 1.346h10.145c.701 0 1.27-.604 1.27-1.346s-.569-1.346-1.27-1.346z"/>
-                    </svg>
-                    CODING PROFILES
-                  </h4>
-                  
-                  <div className="space-y-2">
-                    {/* LeetCode */}
-                    <a 
-                      href="https://leetcode.com/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3">
-                        <img src="https://leetcode.com/favicon.ico" alt="LeetCode" className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">LeetCode</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">2,450 problems</div>
-                    </a>
-
-                    {/* GitHub */}
-                    <a 
-                      href="https://github.com/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3 bg-black/20 rounded-md">
-                        <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-4.042-1.61-4.042-1.61-.546-1.386-1.332-1.755-1.332-1.755-1.089-.745.083-.729.083-.729 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.575C20.565 21.795 24 17.295 24 12c0-6.627-5.373-12-12-12z"/>
+                <div className="border-t border-[#2a2a42]/40 pt-4 mt-4">
+                  <div className="relative mb-4">
+                    <h4 className="text-xs font-semibold text-white mb-3 flex items-center relative z-10">
+                      <span className="bg-gradient-to-r from-[#9F7AEA] to-[#6B46C1] p-1.5 rounded-md mr-2.5 shadow-md flex items-center justify-center">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="h-3.5 w-3.5 text-white" 
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                          <path d="M2 17l10 5 10-5" />
+                          <path d="M2 12l10 5 10-5" />
+                          <path d="M12 12v5" />
+                          <path d="M12 22v-5" />
+                          <path d="M12 12V7" />
+                          <circle cx="12" cy="7" r="1" fill="currentColor" />
+                          <circle cx="12" cy="17" r="1" fill="currentColor" />
                         </svg>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">GitHub</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">24 repos</div>
-                    </a>
-
-                    {/* CodeChef */}
-                    <a 
-                      href="https://www.codechef.com/users/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3">
-                        <img src="https://img.icons8.com/fluent/512/codechef.png" alt="CodeChef" className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">CodeChef</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">1,850 rating</div>
-                    </a>
-
-                    {/* CodeForces */}
-                    <a 
-                      href="https://codeforces.com/profile/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3">
-                        <img src="https://codeforces.org/s/0/favicon-32x32.png" alt="CodeForces" className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">CodeForces</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">1,950 rating</div>
-                    </a>
-
-                    {/* GeeksForGeeks */}
-                    <a 
-                      href="https://auth.geeksforgeeks.org/user/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3">
-                        <img src="https://media.geeksforgeeks.org/gfg-gg-logo.svg" alt="GeeksForGeeks" className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">GeeksforGeeks</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">1,500 rating</div>
-                    </a>
-
-                    {/* HackerRank */}
-                    <a 
-                      href="https://www.hackerrank.com/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3">
-                        <img src="https://www.hackerrank.com/wp-content/uploads/2020/05/hackerrank_cursor_favicon_480px-150x150.png" alt="HackerRank" className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">HackerRank</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">5⭐ Gold</div>
-                    </a>
-
-                    {/* CodeStudio */}
-                    <a 
-                      href="https://www.codingninjas.com/studio/profile/rajatjoshi" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center p-2 rounded-lg bg-[#1a1a2e] hover:bg-[#2a2a42] transition-colors border border-[#2a2a42]"
-                    >
-                      <div className="w-8 h-8 flex items-center justify-center mr-3 bg-black/20 rounded-md overflow-hidden">
-                        <div className="w-5 h-5 rounded overflow-hidden">
-                          <img 
-                            src="https://www.codingninjas.com/favicon.ico" 
-                            alt="CodeStudio"
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJub25lIi8+PHBhdGggZmlsbD0iI0Y3OEM0MCIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIvPjxwYXRoIGZpbGw9IiNGNzhDNDAiIGQ9Ik0xMiA2Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2IDYtMi42OSA2LTYtMi42OS02LTYtNnptMCAxMGMtMi4yMSAwLTQtMS43OS00LTRzMS43OS00IDQtNCA0IDEuNzkgNCA0LTEuNzkgNC00IDR6Ii8+PHBhdGggZmlsbD0iI0Y3OEM0MCIgZD0iTTEyIDhjLTIuMjEgMC00IDEuNzktNCA0czEuNzkgNCA0IDQgNC0xLjc5IDQtNC0xLjc5LTQtNC00eiIvPjwvc3ZnPg==';
-                            }}
-                          />
+                      </span>
+                      CODING PROFILES
+                    </h4>
+                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#9F7AEA]/30 to-transparent rounded-full"></div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 gap-2.5">
+                    {/* Profile items with consistent styling */}
+                    {[
+                      {
+                        name: 'LeetCode',
+                        username: 'rajatjoshi',
+                        icon: 'https://leetcode.com/favicon.ico',
+                        stats: '2,450 problems',
+                        color: '#FFA116',
+                        url: 'https://leetcode.com/rajatjoshi'
+                      },
+                      {
+                        name: 'GitHub',
+                        username: 'rajatjoshi',
+                        icon: (
+                          <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-4.042-1.61-4.042-1.61-.546-1.386-1.332-1.755-1.332-1.755-1.089-.745.083-.729.083-.729 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.575C20.565 21.795 24 17.295 24 12c0-6.627-5.373-12-12-12z"/>
+                          </svg>
+                        ),
+                        stats: '24 repos',
+                        color: '#333',
+                        isSvg: true,
+                        url: 'https://github.com/rajatjoshi'
+                      },
+                      {
+                        name: 'CodeChef',
+                        username: 'rajatjoshi',
+                        icon: 'https://img.icons8.com/fluent/512/codechef.png',
+                        stats: '1,850 rating',
+                        color: '#5B4638',
+                        url: 'https://www.codechef.com/users/rajatjoshi'
+                      },
+                      {
+                        name: 'CodeForces',
+                        username: 'rajatjoshi',
+                        icon: 'https://codeforces.org/s/0/favicon-32x32.png',
+                        stats: '1,950 rating',
+                        color: '#1F8ACB',
+                        url: 'https://codeforces.com/profile/rajatjoshi'
+                      },
+                      {
+                        name: 'GeeksforGeeks',
+                        username: 'rajatjoshi',
+                        icon: 'https://media.geeksforgeeks.org/gfg-gg-logo.svg',
+                        stats: '1,500 rating',
+                        color: '#2F8D46',
+                        url: 'https://auth.geeksforgeeks.org/user/rajatjoshi'
+                      },
+                      {
+                        name: 'HackerRank',
+                        username: 'rajatjoshi',
+                        icon: 'https://www.hackerrank.com/wp-content/uploads/2020/05/hackerrank_cursor_favicon_480px-150x150.png',
+                        stats: '5⭐ Gold',
+                        color: '#00EA64',
+                        url: 'https://www.hackerrank.com/rajatjoshi'
+                      },
+                      {
+                        name: 'CodeStudio',
+                        username: 'rajatjoshi',
+                        icon: 'https://www.codingninjas.com/favicon.ico',
+                        stats: '500+ problems',
+                        color: '#F78C40',
+                        fallback: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJub25lIi8+PHBhdGggZmlsbD0iI0Y3OEM0MCIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIvPjxwYXRoIGZpbGw9IiNGNzhDNDAiIGQ9Ik0xMiA2Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2IDYtMi42OSA2LTYtMi42OS02LTYtNnptMCAxMGMtMi4yMSAwLTQtMS43OS00LTRzMS43OS00IDQtNCA0IDEuNzkgNCA0LTEuNzkgNC00IDR6Ii8+PHBhdGggZmlsbD0iI0Y3OEM0MCIgZD0iTTEyIDhjLTIuMjEgMC00IDEuNzktNCA0czEuNzkgNCA0IDQgNC0xLjc5IDQtNC0xLjc5LTQtNC00eiIvPjwvc3ZnPg==',
+                        url: 'https://www.codingninjas.com/studio/profile/rajatjoshi'
+                      }
+                    ].map((profile, index) => (
+                      <a 
+                        key={index}
+                        href={profile.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`group flex items-center p-2.5 rounded-xl transition-all duration-300 bg-[#1a1a2e] hover:bg-[#2a2a42] border border-[#2a2a42] hover:border-[#3F0071]/60 hover:shadow-lg hover:shadow-[#3F0071]/10`}
+                      >
+                        <div 
+                          className={`w-9 h-9 flex items-center justify-center rounded-lg mr-3 overflow-hidden ${!profile.isSvg ? 'bg-white/5' : ''}`}
+                          style={!profile.isSvg ? { backgroundColor: `${profile.color}15` } : {}}
+                        >
+                          {profile.isSvg ? (
+                            <div className="w-5 h-5">
+                              {profile.icon}
+                            </div>
+                          ) : (
+                            <img 
+                              src={profile.icon} 
+                              alt={profile.name}
+                              className="w-5 h-5 object-contain"
+                              onError={(e) => {
+                                if (profile.fallback) {
+                                  e.target.src = profile.fallback;
+                                }
+                                e.target.onerror = null;
+                              }}
+                            />
+                          )}
                         </div>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">CodeStudio</p>
-                        <p className="text-xs text-gray-400">@rajatjoshi</p>
-                      </div>
-                      <div className="ml-auto text-xs text-gray-500">500+ problems</div>
-                    </a>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-white truncate">{profile.name}</p>
+                          <p className="text-xs text-gray-400 truncate">@{profile.username}</p>
+                        </div>
+                        <div className="ml-2 text-xs font-medium text-gray-300 group-hover:text-white transition-colors">
+                          {profile.stats}
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -839,55 +834,9 @@ const ProfileTracker = () => {
 
           {/* Main Content Row */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            {/* Left Column - Problem Solving Stats */}
-            <div className="lg:col-span-3 space-y-4">
-              <div className="bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] backdrop-blur-sm border border-[#2a2a42]/40 rounded-2xl p-4 shadow-md">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-[#610094] text-base font-semibold">Problem Solving Stats</h3>
-                  <span className="text-[#610094]">▲</span>
-                </div>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-[#3F0071]/20 rounded-lg border border-[#610094]/20">
-                    <div className="flex items-center gap-2">
-                      <span className="text-orange-500">⚡</span>
-                      <span className="text-sm text-white">LeetCode</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-400">✓</span>
-                      <span className="text-[#610094]">🔗</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-[#3F0071]/20 rounded-lg border border-[#610094]/20">
-                    <div className="flex items-center gap-2">
-                      <span className="text-orange-600">CS</span>
-                      <span className="text-sm text-white">CodeStudio</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-400">✓</span>
-                      <span className="text-[#610094]">🔗</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Achievement Badges */}
-              <div className="bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] backdrop-blur-sm border border-[#2a2a42]/40 rounded-2xl p-4 shadow-md">
-                <h3 className="text-[#610094] text-base font-semibold mb-4">Achievements</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { title: 'Consistency', value: '30-day streak', icon: '🔥' },
-                    { title: 'Solver', value: '2500+ problems', icon: '🏆' },
-                    { title: 'Rating', value: 'Expert', icon: '⭐' },
-                    { title: 'Contests', value: '100+', icon: '🏅' }
-                  ].map((item, index) => (
-                    <div key={index} className="bg-[#3F0071]/20 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-1">{item.icon}</div>
-                      <div className="text-sm text-gray-300">{item.title}</div>
-                      <div className="text-sm font-medium text-white">{item.value}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Left Column - Removed Problem Solving Stats and Achievements */}
+            <div className="lg:col-span-3">
+              {/* This space is intentionally left blank */}
             </div>
 
             {/* Right Column - Additional Content */}
