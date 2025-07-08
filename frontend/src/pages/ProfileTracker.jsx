@@ -161,7 +161,7 @@ const ProfileTracker = () => {
                     className="group relative w-8 h-8 bg-[#3F0071]/40 hover:bg-[#000000] rounded flex items-center justify-center border border-[#610094]/30 transition-all duration-200"
                     title="X (Twitter)"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
                     </svg>
                     <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs py-1 px-2 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">@rajatjoshi</span>
@@ -259,25 +259,20 @@ const ProfileTracker = () => {
                     {/* Profile items with consistent styling */}
                     {[
                       {
+                        name: 'GitHub',
+                        username: 'rajatjoshi',
+                        icon: 'https://img.icons8.com/ios-glyphs/30/github.png',
+                        stats: '24 repos',
+                        color: '#BFBBBB',
+                        url: 'https://github.com/rajatjoshi'
+                      },
+                      {
                         name: 'LeetCode',
                         username: 'rajatjoshi',
                         icon: 'https://leetcode.com/favicon.ico',
                         stats: '2,450 problems',
                         color: '#FFA116',
                         url: 'https://leetcode.com/rajatjoshi'
-                      },
-                      {
-                        name: 'GitHub',
-                        username: 'rajatjoshi',
-                        icon: (
-                          <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-4.042-1.61-4.042-1.61-.546-1.386-1.332-1.755-1.332-1.755-1.089-.745.083-.729.083-.729 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.575C20.565 21.795 24 17.295 24 12c0-6.627-5.373-12-12-12z"/>
-                          </svg>
-                        ),
-                        stats: '24 repos',
-                        color: '#333',
-                        isSvg: true,
-                        url: 'https://github.com/rajatjoshi'
                       },
                       {
                         name: 'CodeChef',
