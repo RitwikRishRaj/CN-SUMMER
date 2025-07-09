@@ -4,6 +4,7 @@ import CustomHeatmap from "../components/CustomHeatmap";
 import CountUp from "../components/ui/CountUp";
 import NavBar from "../components/NavBar";
 import RatingGraph from "../components/ui/RatingGraph";
+import HorizontalBarGraph from "../components/ui/HorizontalBarGraph";
 
 const ProfileTracker = () => {
   // Scroll to top on component mount
@@ -100,6 +101,50 @@ const ProfileTracker = () => {
   };
   
   const currentStats = statsData[timePeriod];
+
+  // Updated problem topics data with all the provided topics
+  const [problemTopicsData] = useState([
+    { topic: 'Arrays', count: 120 },
+    { topic: 'Dynamic Programming', count: 110 },
+    { topic: 'Graphs', count: 105 },
+    { topic: 'Binary Search', count: 98 },
+    { topic: 'Trees', count: 95 },
+    { topic: 'Linked List', count: 90 },
+    { topic: 'String Algorithms', count: 88 },
+    { topic: 'Greedy Algorithms', count: 85 },
+    { topic: 'Backtracking', count: 80 },
+    { topic: 'Stack', count: 78 },
+    { topic: 'Queue', count: 75 },
+    { topic: 'Heap', count: 72 },
+    { topic: 'Hash Table', count: 70 },
+    { topic: 'Sorting', count: 68 },
+    { topic: 'Bit Manipulation', count: 65 },
+    { topic: 'Two Pointers', count: 62 },
+    { topic: 'Sliding Window', count: 60 },
+    { topic: 'Divide and Conquer', count: 58 },
+    { topic: 'Recursion', count: 55 },
+    { topic: 'Memoization', count: 52 },
+    { topic: 'Binary Tree', count: 50 },
+    { topic: 'Breadth-First Search', count: 48 },
+    { topic: 'Depth-First Search', count: 45 },
+    { topic: 'Topological Sort', count: 42 },
+    { topic: 'Shortest Path', count: 40 },
+    { topic: 'Minimum Spanning Tree', count: 38 },
+    { topic: 'Suffix Array', count: 35 },
+    { topic: 'Trie', count: 32 },
+    { topic: 'Union Find', count: 30 },
+    { topic: 'Segment Tree', count: 28 },
+    { topic: 'Binary Indexed Tree', count: 25 },
+    { topic: 'Matrix', count: 22 },
+    { topic: 'Design', count: 20 },
+    { topic: 'Simulation', count: 18 },
+    { topic: 'Bitmask', count: 15 },
+    { topic: 'Game Theory', count: 12 },
+    { topic: 'Number Theory', count: 10 },
+    { topic: 'Combinatorics', count: 8 },
+    { topic: 'Geometry', count: 5 },
+    { topic: 'Advanced Data Structure', count: 3 }
+  ].sort((a, b) => b.count - a.count)); // Sort by count in descending order
 
   return (
     <div className="bg-black min-h-screen">
@@ -510,7 +555,7 @@ const ProfileTracker = () => {
                 <CustomHeatmap />
               </div>
               
-              {/* Problems Solved - Moved below heatmap */}
+              {/* Problems Solved */}
               <div className="mt-2">
                 <div className="bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] backdrop-blur-sm border border-[#2a2a42]/40 rounded-xl p-2 shadow-md">
                   <h3 className="text-base font-semibold text-white mb-2">Problems Solved</h3>
@@ -824,17 +869,34 @@ const ProfileTracker = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Questions Solved by Topic */}
+              <div className="mt-4">
+                <div className="bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] backdrop-blur-sm border border-[#2a2a42]/40 rounded-2xl p-5 shadow-md">
+                  <h3 className="text-white text-lg font-semibold mb-4">Questions Solved by Topic</h3>
+                  <div className="h-[400px] -mx-2 -mb-2">
+                    <HorizontalBarGraph 
+                      data={problemTopicsData}
+                      title=""
+                      xAxisKey="topic"
+                      barKey="count"
+                      barColor="#9F7AEA"
+                      maxItems={10}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Main Content Row */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            {/* Left Column - Removed Problem Solving Stats and Achievements */}
-            <div className="lg:col-span-3">
-              {/* This space is intentionally left blank */}
+            {/* Left Column */}
+            <div className="lg:col-span-7 space-y-4">
+              {/* ... existing left column content ... */}
             </div>
-
-            {/* Right Column - Additional Content */}
+            
+            {/* Right Column */}
             <div className="lg:col-span-5 space-y-4">
               {/* ... existing right column content ... */}
             </div>
