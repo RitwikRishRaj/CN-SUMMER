@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import EnhancedRadarChart from "../components/ui/EnhancedRadarChart";
+import RadarGridCircleCard from "../components/ui/RadarGridCircleCard";
 import CustomHeatmap from "../components/CustomHeatmap";
 import CountUp from "../components/ui/CountUp";
 import NavBar from "../components/NavBar";
@@ -146,6 +148,37 @@ const ProfileTracker = () => {
     { topic: 'Advanced Data Structure', count: 3 }
   ].sort((a, b) => b.count - a.count)); // Sort by count in descending order
 
+  // Mock data for radar chart
+  const radarData = [
+    { subject: 'Tried', value: 85, max: 100, color: '#610094' },
+    { subject: 'Solved', value: 70, max: 100, color: '#4F006B' },
+    { subject: 'Solved in 1 Submission', value: 60, max: 100, color: '#3D0042' },
+    { subject: 'Contest Participation Rate', value: 75, max: 100, color: '#2B0019' },
+    { subject: 'Accuracy', value: 80, max: 100, color: '#19000F' }
+  ];
+
+  // State for active tooltip
+  const [activeTooltip, setActiveTooltip] = useState(null);
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] p-3 rounded-lg shadow-lg border border-[#610094]/30">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: payload[0].color }}></div>
+            <span className="text-sm font-medium text-[#610094]">{payload[0].payload.subject}</span>
+          </div>
+          <div className="text-sm text-gray-300">
+            <span className="font-medium text-white">Value: </span>
+            {payload[0].value}%
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="bg-black min-h-screen">
       <NavBar />
@@ -285,14 +318,7 @@ const ProfileTracker = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         >
-                          <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                          <path d="M2 17l10 5 10-5" />
-                          <path d="M2 12l10 5 10-5" />
-                          <path d="M12 12v5" />
-                          <path d="M12 22v-5" />
-                          <path d="M12 12V7" />
-                          <circle cx="12" cy="7" r="1" fill="currentColor" />
-                          <circle cx="12" cy="17" r="1" fill="currentColor" />
+                          <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
                       </span>
                       CODING PROFILES
@@ -546,6 +572,11 @@ const ProfileTracker = () => {
                   currentRating={platformData[selectedPlatform]?.rating}
                   ratingChange={platformData[selectedPlatform]?.change}
                 />
+              </div>
+
+              {/* Radar Chart Section */}
+              <div className="mt-4">
+                <RadarGridCircleCard />
               </div>
             </div>
 
