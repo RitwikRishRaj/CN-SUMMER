@@ -26,6 +26,34 @@ const AIChatPage = () => {
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const keepAliveIntervalRef = useRef(null);
+
+  // Keep-alive function to prevent shutdown
+  const sendKeepAlive = async () => {
+    try {
+      await fetch(OPENROUTER_API_URL, {
+        method: 'OPTIONS', // Lightweight request
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+        }
+      });
+    } catch (err) {
+      console.log('Keep-alive ping failed (normal if not using websockets)');
+    }
+  };
+
+  // Set up keep-alive interval when component mounts
+  useEffect(() => {
+    // Ping every 6 hours (21600000 ms) to maintain connection
+    keepAliveIntervalRef.current = setInterval(sendKeepAlive, 21600000);
+    
+    return () => {
+      // Clean up interval on unmount
+      if (keepAliveIntervalRef.current) {
+        clearInterval(keepAliveIntervalRef.current);
+      }
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -69,11 +97,11 @@ const AIChatPage = () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
-          'HTTP-Referer': window.location.href, // Required by OpenRouter
-          'X-Title': 'CodeChan AI' // Optional, shown in OpenRouter logs
+          'HTTP-Referer': window.location.href,
+          'X-Title': 'CodeChan AI'
         },
         body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-0528:free', // Using DeepSeek R1 model through OpenRouter
+          model: 'deepseek/deepseek-r1-0528:free',
           messages: [
             { role: 'system', content: systemPrompt },
             ...updatedMessages.slice(-6).map(msg => ({
@@ -86,7 +114,6 @@ const AIChatPage = () => {
           stream: false
         })
       });
-
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -121,15 +148,15 @@ const AIChatPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white pt-20">
+    <div className="min-h-screen bg-black text-white" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "San Francisco", sans-serif', paddingTop: '0' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+        <h1 className="text-3xl font-bold mb-8 text-center" style={{ color: '#610094' }}>
           CodeChan AI Assistant
         </h1>
         
         {/* Error message */}
         {error && (
-          <div className="mb-4 p-4 bg-red-900/50 border border-red-700 rounded-lg text-sm text-red-200">
+          <div className="mb-4 p-4 rounded-lg text-sm" style={{ backgroundColor: '#3F0071', borderColor: '#610094' }}>
             <div className="flex items-center">
               <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -139,7 +166,11 @@ const AIChatPage = () => {
           </div>
         )}
         
-        <div className="bg-gray-800 rounded-xl shadow-xl overflow-hidden flex flex-col" style={{ height: '70vh' }}>
+        <div className="rounded-xl shadow-xl overflow-hidden flex flex-col" style={{ 
+          height: '80vh',
+          backgroundColor: '#150050',
+          border: '1px solid #3F0071'
+        }}>
           {/* Messages container */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
@@ -150,9 +181,12 @@ const AIChatPage = () => {
                 <div
                   className={`max-w-xs sm:max-w-md md:max-w-lg rounded-2xl px-4 py-2 ${
                     message.sender === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-none'
-                      : 'bg-gray-700 text-white rounded-bl-none'
+                      ? 'rounded-br-none'
+                      : 'rounded-bl-none'
                   }`}
+                  style={{
+                    backgroundColor: message.sender === 'user' ? '#3F0071' : '#610094'
+                  }}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                   <p className="text-xs opacity-60 text-right mt-1">
@@ -163,11 +197,20 @@ const AIChatPage = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-700 text-white rounded-2xl rounded-bl-none px-4 py-2">
+                <div className="rounded-2xl rounded-bl-none px-4 py-2" style={{ backgroundColor: '#610094' }}>
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div className="w-2 h-2 rounded-full animate-bounce" style={{ 
+                      backgroundColor: '#FFFFFF', 
+                      animationDelay: '0ms' 
+                    }}></div>
+                    <div className="w-2 h-2 rounded-full animate-bounce" style={{ 
+                      backgroundColor: '#FFFFFF', 
+                      animationDelay: '150ms' 
+                    }}></div>
+                    <div className="w-2 h-2 rounded-full animate-bounce" style={{ 
+                      backgroundColor: '#FFFFFF', 
+                      animationDelay: '300ms' 
+                    }}></div>
                   </div>
                 </div>
               </div>
@@ -176,7 +219,7 @@ const AIChatPage = () => {
           </div>
 
           {/* Input area */}
-          <div className="border-t border-gray-700 p-4">
+          <div className="p-4" style={{ borderTop: '1px solid #3F0071' }}>
             <form onSubmit={handleSubmit} className="flex space-x-2">
               <input
                 ref={inputRef}
@@ -184,7 +227,12 @@ const AIChatPage = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything about coding..."
-                className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-70"
+                className="flex-1 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:border-transparent disabled:opacity-70"
+                style={{
+                  backgroundColor: '#150050',
+                  border: '1px solid #3F0071',
+                  color: 'white'
+                }}
                 disabled={isLoading}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -196,7 +244,13 @@ const AIChatPage = () => {
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center"
+                className="text-white px-6 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center"
+                style={{
+                  backgroundColor: '#3F0071',
+                  ':hover': {
+                    backgroundColor: '#610094'
+                  }
+                }}
               >
                 {isLoading ? (
                   <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
