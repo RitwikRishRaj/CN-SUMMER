@@ -101,7 +101,7 @@ const AIChatPage = () => {
           'X-Title': 'CodeChan AI'
         },
         body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-0528:free',
+          model: 'mistralai/mistral-7b-instruct:free',
           messages: [
             { role: 'system', content: systemPrompt },
             ...updatedMessages.slice(-6).map(msg => ({
