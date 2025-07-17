@@ -29,18 +29,16 @@ const AIChatPage = () => {
   const keepAliveIntervalRef = useRef(null);
 
   // Keep-alive function to prevent shutdown
-  const sendKeepAlive = async () => {
-    try {
-      await fetch(OPENROUTER_API_URL, {
-        method: 'OPTIONS', // Lightweight request
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
-        }
-      });
-    } catch (err) {
-      console.log('Keep-alive ping failed (normal if not using websockets)');
-    }
-  };
+const sendKeepAlive = async () => {
+  await fetch(OPENROUTER_API_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ model: 'mistralai/mistral-7b-instruct:free', messages: [] }),
+  }).catch(() => {}); // Silent fail
+};
 
   // Set up keep-alive interval when component mounts
   useEffect(() => {
