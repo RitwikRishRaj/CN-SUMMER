@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import EventCalendar from './pages/EventCalendar';
 import AIChatPage from './pages/AIChatPage';
 import ProfileTracker from './pages/ProfileTracker';
+import SettingsPage from './pages/SettingsPage';
 import { AuthProvider } from './contexts/AuthContext';
 
 // Main App component
@@ -20,6 +21,7 @@ function AppContent() {
         <Route path="/calendar" element={<EventCalendar />} />
         <Route path="/ai" element={<AIChatPage />} />
         <Route path="/profile" element={<ProfileTracker />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

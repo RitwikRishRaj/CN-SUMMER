@@ -20,7 +20,8 @@ const NavBar = () => {
     { label: 'AI', to: '/ai' },
     { label: 'Friends', to: '/friends' },
     { label: 'Calendar', to: '/calendar' },
-    { label: 'Profile Tracker', to: '/profile' },  
+    { label: 'Profile Tracker', to: '/profile' },
+    { label: 'Settings', to: '/settings' },
   ];
 
   const [scrolled, setScrolled] = useState(false);
