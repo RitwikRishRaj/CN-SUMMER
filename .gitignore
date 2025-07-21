@@ -31,13 +31,13 @@ yarn-error.log*
 
 # Backend specific
 backend/node_modules/
-backend/.env
-backend/.env.*
+# backend/.env
+# backend/.env.*
 
 # Frontend specific
 frontend/node_modules/
-frontend/.env
-frontend/.env.*
+# frontend/.env
+# frontend/.env.*
 frontend/dist
 frontend/build
 

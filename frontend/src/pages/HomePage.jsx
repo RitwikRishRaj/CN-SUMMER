@@ -1,6 +1,7 @@
 import React from 'react';
 import Aurora from '../components/AuroraBackground';
 import NavBar from '../components/NavBar';
+import DatabaseTest from '../components/DatabaseTest';
 
 const HomePage = () => {
   return (
@@ -16,7 +17,10 @@ const HomePage = () => {
         <NavBar />
         <div className="pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Main content goes here */}
+            <div className="max-w-2xl mx-auto">
+              <h1 className="text-4xl font-bold text-center mb-8">Welcome to CN Summer</h1>
+              <DatabaseTest />
+            </div>
           </div>
         </div>
       </div>

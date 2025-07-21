@@ -4,22 +4,84 @@ import { supabase } from '../lib/supabase';
 import './Modal.css';
 import LoadingSpinner from './ui/LoadingSpinner';
 
-function SimpleDetailsModal({ onClose }) {
+function SimpleDetailsModal({ onClose, initialData = {} }) {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    username: ''
+    firstName: initialData.firstName || '',
+    lastName: initialData.lastName || '',
+    username: initialData.username || ''
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [usernameStatus, setUsernameStatus] = useState(''); // 'checking', 'available', 'taken', 'invalid'
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const navigate = useNavigate();
   const formRef = useRef(null);
+  const usernameCheckTimeoutRef = useRef(null);
+
+  const checkUsernameAvailability = async (username) => {
+    if (!username || username.length < 3) {
+      setUsernameStatus('');
+      return;
+    }
+
+    // Basic validation first
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      setUsernameStatus('invalid');
+      return;
+    }
+
+    setIsCheckingUsername(true);
+    setUsernameStatus('checking');
+
+    try {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('username', username)
+        .single();
+
+      if (existingUser) {
+        setUsernameStatus('taken');
+      } else {
+        setUsernameStatus('available');
+      }
+    } catch (error) {
+      // If no user found (PGRST116), username is available
+      if (error.code === 'PGRST116') {
+        setUsernameStatus('available');
+      } else {
+        console.error('Error checking username:', error);
+        setUsernameStatus('');
+      }
+    } finally {
+      setIsCheckingUsername(false);
+    }
+  };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Clear errors for the field being edited
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+
+    // Debounced username availability check
+    if (name === 'username') {
+      // Clear previous timeout
+      if (usernameCheckTimeoutRef.current) {
+        clearTimeout(usernameCheckTimeoutRef.current);
+      }
+
+      // Set new timeout for checking
+      usernameCheckTimeoutRef.current = setTimeout(() => {
+        checkUsernameAvailability(value.trim());
+      }, 500); // 500ms debounce
+    }
   };
 
   const validateForm = () => {
@@ -34,6 +96,12 @@ function SimpleDetailsModal({ onClose }) {
       newErrors.username = 'Only letters, numbers, and underscores allowed';
     } else if (formData.username.length < 3) {
       newErrors.username = 'Username must be at least 3 characters';
+    } else if (usernameStatus === 'taken') {
+      newErrors.username = 'This username is already taken';
+    } else if (usernameStatus === 'checking' || isCheckingUsername) {
+      newErrors.username = 'Checking username availability...';
+    } else if (usernameStatus !== 'available' && formData.username.trim().length >= 3) {
+      newErrors.username = 'Please wait for username availability check';
     }
     
     setErrors(newErrors);
@@ -51,6 +119,15 @@ function SimpleDetailsModal({ onClose }) {
       if (onClose) onClose();
     }
   }, [formData, navigate, onClose]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (usernameCheckTimeoutRef.current) {
+        clearTimeout(usernameCheckTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -185,20 +262,62 @@ function SimpleDetailsModal({ onClose }) {
               >
                 Username <span className="text-red-500">*</span>
               </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                value={formData.username}
-                onChange={handleChange}
-                className={`modal-input ${errors.username ? 'border-red-500' : 'border-gray-700'}`}
-                aria-invalid={!!errors.username}
-                aria-describedby={errors.username ? 'usernameError' : undefined}
-                disabled={isSubmitting}
-              />
+              <div className="relative">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className={`modal-input pr-10 ${
+                    errors.username 
+                      ? 'border-red-500' 
+                      : usernameStatus === 'available' 
+                        ? 'border-green-500' 
+                        : usernameStatus === 'taken' 
+                          ? 'border-red-500'
+                          : 'border-gray-700'
+                  }`}
+                  aria-invalid={!!errors.username}
+                  aria-describedby={errors.username ? 'usernameError' : undefined}
+                  disabled={isSubmitting}
+                />
+                {/* Status indicator */}
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  {isCheckingUsername ? (
+                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  ) : usernameStatus === 'available' ? (
+                    <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  ) : usernameStatus === 'taken' ? (
+                    <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  ) : null}
+                </div>
+              </div>
               {errors.username ? (
                 <p id="usernameError" className="text-red-500 text-sm mt-1">
                   {errors.username}
+                </p>
+              ) : usernameStatus === 'available' ? (
+                <p className="text-green-500 text-sm mt-1 flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Username is available!
+                </p>
+              ) : usernameStatus === 'taken' ? (
+                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                  Username is already taken
+                </p>
+              ) : usernameStatus === 'invalid' ? (
+                <p className="text-red-500 text-sm mt-1">
+                  Only letters, numbers, and underscores allowed
                 </p>
               ) : (
                 <p className="text-gray-400 text-xs mt-1">
@@ -212,7 +331,7 @@ function SimpleDetailsModal({ onClose }) {
             <button 
               type="submit" 
               className="modal-button flex items-center justify-center gap-2"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isCheckingUsername || (formData.username.trim().length >= 3 && usernameStatus !== 'available')}
             >
               {isSubmitting ? (
                 <>

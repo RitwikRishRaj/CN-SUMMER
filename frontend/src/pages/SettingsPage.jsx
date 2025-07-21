@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import NavBar from '../components/NavBar';
+import ProfilePicture from '../components/ProfilePicture';
 import { FiUser, FiMail, FiGlobe, FiBriefcase, FiLink, FiCode, FiAward, FiEye, FiCheckCircle, FiAlertCircle, FiSave } from 'react-icons/fi';
 import { FaGithub, FaHackerrank } from 'react-icons/fa';
 import { SiCodeforces, SiCodechef, SiGeeksforgeeks, SiLeetcode, SiCodingninjas } from 'react-icons/si';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const SettingsPage = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('basic');
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState({ type: null, message: '' });
@@ -18,7 +20,7 @@ const SettingsPage = () => {
     codeChanId: '',
     firstName: '',
     lastName: '',
-    email: currentUser?.email || '',
+    email: user?.email || '',
     bio: '',
     country: '',
 
@@ -52,6 +54,78 @@ const SettingsPage = () => {
     notifications: true,
     emailNotifications: true,
   });
+
+  // Fetch user profile data on component mount
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!user) return;
+
+      try {
+        // Fetch user data from users table
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        // Fetch profile data from profiles table
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        // Fetch settings data from user_settings table
+        const { data: settingsData, error: settingsError } = await supabase
+          .from('user_settings')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        // Extract Google profile data from user metadata
+        const googleProfilePic = user.user_metadata?.avatar_url || 
+                                user.user_metadata?.picture || '';
+        const googleFirstName = user.user_metadata?.full_name?.split(' ')[0] || 
+                               user.user_metadata?.given_name || 
+                               userData?.first_name || '';
+        const googleLastName = user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || 
+                              user.user_metadata?.family_name || 
+                              userData?.last_name || '';
+
+
+
+        // Update form data with fetched information
+        setFormData(prev => ({
+          ...prev,
+          // Basic Info - prioritize Google data
+          profilePic: googleProfilePic || settingsData?.profile_pic || '',
+          firstName: googleFirstName,
+          lastName: googleLastName,
+          email: user.email || '',
+          bio: profileData?.bio || '',
+          
+          // Education Info
+          college: profileData?.college || '',
+          degree: profileData?.degree || '',
+          branch: profileData?.branch || '',
+          graduationYear: profileData?.graduation_year || '',
+          
+          // Settings Info
+          codeChanId: settingsData?.code_chan_id || '',
+          country: settingsData?.country || '',
+          linkedin: settingsData?.linkedin_url || '',
+          twitter: settingsData?.twitter_url || '',
+          portfolio: settingsData?.portfolio_url || '',
+          github: settingsData?.github_username || '',
+        }));
+
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [user]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -94,8 +168,54 @@ const SettingsPage = () => {
     setSaveStatus({ type: null, message: '' });
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Update users table (basic info)
+      const { error: userError } = await supabase
+        .from('users')
+        .update({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (userError) throw userError;
+
+      // Update or insert profiles table (education info)
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          bio: formData.bio,
+          college: formData.college,
+          degree: formData.degree,
+          branch: formData.branch,
+          graduation_year: formData.graduationYear,
+          updated_at: new Date().toISOString()
+        });
+
+      if (profileError) throw profileError;
+
+      // Update or insert user_settings table (settings and social info)
+      const { error: settingsError } = await supabase
+        .from('user_settings')
+        .upsert({
+          id: user.id,
+          profile_pic: formData.profilePic,
+          code_chan_id: formData.codeChanId,
+          email: formData.email,
+          country: formData.country,
+          linkedin_url: formData.linkedin,
+          twitter_url: formData.twitter,
+          portfolio_url: formData.portfolio,
+          github_username: formData.github,
+          updated_at: new Date().toISOString()
+        });
+
+      if (settingsError) throw settingsError;
       
       setSaveStatus({
         type: 'success',
@@ -107,9 +227,10 @@ const SettingsPage = () => {
         setSaveStatus({ type: null, message: '' });
       }, 3000);
     } catch (error) {
+      console.error('Error saving settings:', error);
       setSaveStatus({
         type: 'error',
-        message: 'Failed to save settings. Please try again.'
+        message: error.message || 'Failed to save settings. Please try again.'
       });
     } finally {
       setIsLoading(false);
@@ -206,17 +327,16 @@ const SettingsPage = () => {
                   
                   {/* Profile Picture Section */}
                   <div className="flex items-center space-x-6">
-                    <div className="w-24 h-24 rounded-full bg-white/5 border-2 border-white/10 flex items-center justify-center overflow-hidden">
-                      {formData.profilePic ? (
-                        <img src={formData.profilePic} alt="Profile" className="w-full h-full object-cover" />
-                      ) : (
-                        <FiUser className="w-12 h-12 text-gray-500" />
-                      )}
-                    </div>
+                    <ProfilePicture 
+                      src={formData.profilePic} 
+                      alt="Profile Picture" 
+                      size="w-24 h-24"
+                    />
+
                     <div>
                       <button
                         type="button"
-                        className="px-4 py-2 bg-gradient-to-r from-blue-600/90 to-purple-600/90 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-500/20"
+                        className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-all border border-white/20 hover:border-white/30"
                       >
                         Change Photo
                       </button>

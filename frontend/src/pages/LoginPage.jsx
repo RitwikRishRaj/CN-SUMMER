@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { FcGoogle } from 'react-icons/fc';
+import { useAuth } from '../contexts/AuthContext';
 import SimpleDetailsModal from '../components/SimpleDetailsModal';
 import Silk from '../components/Silk';
 
@@ -11,29 +12,37 @@ function LoginPage() {
   const [error, setError] = useState('');
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleGoogleLogin = async () => {
-    // For now, simulate a successful login with the test user
-    const mockUser = {
-      id: 'test-google-user-123',
-      email: 'google@example.com',
-      user_metadata: {
-        username: 'googleuser',
-        first_name: 'Google',
-        last_name: 'User'
-      }
-    };
-    
     try {
       setLoading(true);
-      // Store in localStorage for session management
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      // Navigate to dashboard
-      navigate('/dashboard');
+      setError('');
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // The redirect will happen automatically
+      // User will be redirected to Google OAuth, then back to /auth/callback
+      
     } catch (error) {
       console.error('Error during Google login:', error);
-      setError('Failed to sign in with Google');
-    } finally {
+      setError(error.message || 'Failed to sign in with Google');
       setLoading(false);
     }
   };
@@ -265,6 +274,6 @@ function LoginPage() {
       )}
     </div>
   );
-}
+};
 
 export default LoginPage;

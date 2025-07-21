@@ -3,13 +3,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const NavBar = () => {
-  const { currentUser, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await signOut();
       navigate('/login');
     } catch (error) {
       console.error('Failed to log out', error);
@@ -107,7 +107,7 @@ const NavBar = () => {
               </div>
             ))}
             
-            {currentUser ? (
+            {user ? (
               <button
                 onClick={handleLogout}
                 className="text-sm text-gray-300 hover:text-white px-3 py-1 font-medium border border-gray-600 rounded-md hover:bg-white/10 transition-colors"
@@ -214,7 +214,7 @@ const NavBar = () => {
                   {item.label}
                 </Link>
               ))}
-              {currentUser ? (
+              {user ? (
                 <button
                   onClick={() => {
                     handleLogout();

@@ -5,65 +5,111 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
   padding: 1rem;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #111827; /* bg-gray-900 */
-  border: 1px solid #1f2937; /* border-gray-800 */
-  border-radius: 0.5rem; /* rounded-lg */
+  background: linear-gradient(135deg, rgba(25, 24, 37, 0.4) 0%, rgba(42, 27, 61, 0.5) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
   width: 100%;
-  max-width: 28rem; /* max-w-md */
-  padding: 1.5rem; /* p-6 */
+  max-width: 28rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  position: relative;
+  overflow: hidden;
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Glass overlay effect */
+.modal-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 /* Input Fields */
 .modal-input {
   display: block;
   width: 100%;
-  padding: 0.625rem 1rem; /* py-2.5 px-4 */
-  background-color: #1f2937; /* bg-gray-800 */
-  border: 1px solid #374151; /* border-gray-700 */
-  border-radius: 9999px; /* rounded-full */
+  padding: 0.75rem 1.25rem;
+  background: rgba(31, 41, 55, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
   color: white;
-  font-size: 0.875rem; /* text-sm */
-  line-height: 1.25rem; /* leading-5 */
-  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.modal-input::placeholder {
+  color: rgba(156, 163, 175, 0.7);
 }
 
 .modal-input:focus {
   outline: none;
-  border-color: #3b82f6; /* border-blue-500 */
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* ring-2 ring-blue-500 */
+  border-color: rgba(59, 130, 246, 0.6);
+  background: rgba(31, 41, 55, 0.8);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.modal-input:hover:not(:focus) {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(31, 41, 55, 0.7);
 }
 
 .modal-input:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
+  background: rgba(31, 41, 55, 0.3);
 }
 
-.modal-input.border-red-500 {
-  border-color: #ef4444;
-}
 
-.modal-input.border-red-500:focus {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
-  border-color: #ef4444;
-}
 
 /* Labels */
 .modal-label {
   display: block;
-  margin-bottom: 0.5rem; /* mb-2 */
-  color: #d1d5db; /* text-gray-300 */
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500; /* font-medium */
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  position: relative;
+  z-index: 1;
 }
 
 /* Button */
@@ -71,37 +117,56 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 2rem;
-  background-color: #2563eb;
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
-  border-radius: 9999px;
-  border: none;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   outline: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  min-width: 120px;
-  height: 40px;
+  min-width: 140px;
+  height: 44px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.modal-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .modal-button:not(:disabled):hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-button:not(:disabled):hover::before {
+  opacity: 1;
 }
 
 .modal-button:not(:disabled):active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .modal-button:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  transform: none;
+  box-shadow: none;
 }
 
 /* Loading spinner */
@@ -118,9 +183,57 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 /* Form content wrapper */
 .form-content {
   flex: 1;
+  position: relative;
+}
+
+/* Modal title enhancement */
+.modal-content h2 {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+}
+
+/* Enhanced border colors for different states */
+.modal-input.border-green-500 {
+  border-color: rgba(34, 197, 94, 0.6);
+  background: rgba(31, 41, 55, 0.8);
+}
+
+.modal-input.border-green-500:focus {
+  border-color: rgba(34, 197, 94, 0.8);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-input.border-red-500 {
+  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(31, 41, 55, 0.8);
+}
+
+.modal-input.border-red-500:focus {
+  border-color: rgba(239, 68, 68, 0.8);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Status message enhancements */
+.text-green-500 {
+  color: rgba(34, 197, 94, 0.9);
+}
+
+.text-red-500 {
+  color: rgba(239, 68, 68, 0.9);
+}
+
+.text-gray-400 {
+  color: rgba(156, 163, 175, 0.8);
 }

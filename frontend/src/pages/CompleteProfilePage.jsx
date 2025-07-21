@@ -266,6 +266,17 @@ const CompleteProfilePage = () => {
           });
 
         if (error) throw error;
+
+        // Mark onboarding as completed in users table
+        const { error: userUpdateError } = await supabase
+          .from('users')
+          .update({
+            onboarding_completed: true,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', user.id);
+
+        if (userUpdateError) throw userUpdateError;
       }
 
       // Navigate to home page after successful submission

@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import LoginPage from './pages/LoginPage';
+import AuthCallback from './pages/AuthCallback';
 import CompleteProfilePage from './pages/CompleteProfilePage';
 import HomePage from './pages/HomePage';
 import EventCalendar from './pages/EventCalendar';
@@ -17,6 +18,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/complete-profile" element={<CompleteProfilePage />} />
         <Route path="/calendar" element={<EventCalendar />} />
         <Route path="/ai" element={<AIChatPage />} />
