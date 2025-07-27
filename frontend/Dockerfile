@@ -1,17 +1,16 @@
-FROM node:18-alpine
+# Stage 1: Build the application
+FROM node:22.17.1-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
 # Install build dependencies
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat python3 make g++
 
-# Copy package files first
+# Copy package files
 COPY package*.json ./
 
 # Copy lock file if exists
 COPY package-lock.json* ./
-
 
 # Install dependencies with legacy peer deps
 RUN npm install --legacy-peer-deps
@@ -22,10 +21,8 @@ COPY . .
 # Install build tools
 RUN npm install --save-dev @vitejs/plugin-react terser
 
-# Create a non-root user and switch to it
-RUN addgroup -S appuser && adduser -S appuser -G appuser
-RUN chown -R appuser:appuser /app
-USER appuser
+# Build the application
+RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 5173
